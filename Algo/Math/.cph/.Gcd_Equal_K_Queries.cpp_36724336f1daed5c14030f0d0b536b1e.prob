@@ -1,0 +1,1 @@
+{"name":"Local: Gcd_Equal_K_Queries","url":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Gcd_Equal_K_Queries.cpp","tests":[{"id":1707582509673,"input":"8\n5 4 20 1 16 17 5 15","output":"19"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Gcd_Equal_K_Queries.cpp","group":"local","local":true}

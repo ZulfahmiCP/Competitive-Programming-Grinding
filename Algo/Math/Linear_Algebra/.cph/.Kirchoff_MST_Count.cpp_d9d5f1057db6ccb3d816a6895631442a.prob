@@ -1,0 +1,1 @@
+{"name":"Local: Kirchoff_MST_Count","url":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Linear_Algebra\\Kirchoff_MST_Count.cpp","tests":[{"id":1742024397347,"input":"2 2 \n1 4 \n2 3","output":"60"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Linear_Algebra\\Kirchoff_MST_Count.cpp","group":"local","local":true}

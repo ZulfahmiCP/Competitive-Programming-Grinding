@@ -1,0 +1,1 @@
+{"name":"Local: Polynomial","url":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Linear_Algebra\\Polynomial.cpp","tests":[{"id":1723828898183,"input":"5","output":"1 10 55 200 530 1052 1590 1800 1485 810 243"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\Linear_Algebra\\Polynomial.cpp","group":"local","local":true}

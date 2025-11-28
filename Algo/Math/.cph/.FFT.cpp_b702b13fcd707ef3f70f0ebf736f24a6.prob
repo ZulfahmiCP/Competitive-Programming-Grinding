@@ -1,0 +1,1 @@
+{"name":"Local: FFT","url":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\FFT.cpp","tests":[{"id":1707594744591,"input":"3 3\n1 2 3\n4 5 6","output":"0 0 1 2 1 2 4 2 0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\Math\\FFT.cpp","group":"local","local":true}

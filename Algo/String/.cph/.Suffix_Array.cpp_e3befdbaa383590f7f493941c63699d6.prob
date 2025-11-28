@@ -1,0 +1,1 @@
+{"name":"Local: Suffix_Array","url":"c:\\Users\\Acer\\CP Training\\Algo\\String\\Suffix_Array.cpp","tests":[{"id":1709035594970,"input":"ababba","output":"6 5 0 2 4 1 3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\String\\Suffix_Array.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: Aho_Corasick","url":"c:\\Users\\Acer\\CP Training\\Algo\\String\\Aho_Corasick.cpp","tests":[{"id":1708759493233,"input":"ahishersherhe\n4\nhe\nshe\nhis\nher","output":"3\n2\n1\n2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Acer\\CP Training\\Algo\\String\\Aho_Corasick.cpp","group":"local","local":true}

@@ -1,0 +1,12 @@
+*.exe
+.vscode/
+*.ans
+*.in
+*.out
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/extensions.json
+*.log
+*.err
+Algorithms Cheatsheet
