@@ -11,3 +11,4 @@
 *.err
 Algorithms Cheatsheet
 .cph
+.gitignore
