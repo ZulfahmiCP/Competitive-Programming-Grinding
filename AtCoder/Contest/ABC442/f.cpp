@@ -45,42 +45,55 @@ const double EPS = 1e-9;
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    int n; cin >> n;
+    vector<string> S(n);
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    for(auto &s : S) cin >> s;
 
-        int time = 0, cur = 0;
+    // dp[i][k] = minimum cost such that the height of the stairs at column i is k.
 
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
+    // dp[i][k] = cost(i, k) + min(dp[i-1][l]), l <= k
 
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
+    vector<vector<int>> pref_w(n, vector<int>(n, 0));
+    vector<vector<int>> pref_b(n, vector<int>(n, 0));
 
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
+    for(int j = 0; j < n; j++){
+        pref_w[0][j] = S[0][j] == '.';
+        pref_b[0][j] = S[0][j] == '#';
 
-                add[B[j]] += C[j];
-                j++;
-            }
+        for(int i = 1; i < n; i++){
+            pref_w[i][j] = pref_w[i-1][j] + (S[i][j] == '.');
+            pref_b[i][j] = pref_b[i-1][j] + (S[i][j] == '#');
+        }
+    }
+    
+    auto cost = [&](int i, int k) {
+        if(k == 0) return pref_b[n-1][i];
+        if(k == n) return pref_w[n-1][i];
+        k = n-k;
+        return (pref_w[n-1][i] - pref_w[k-1][i]) + pref_b[k-1][i];
+    };
 
-            if(ok) break;
-            add.clear();
+    vector<int> dp(n+1, INF);
+
+    for(int k = 0; k <= n; k++)
+        dp[k] = cost(0, k);
+    // deb(dp);
+
+    for(int i = 1; i < n; i++){
+        vector<int> new_dp(n+1, INF);
+        
+        for(int k = 0; k <= n; k++){
+            if(k > 0)
+                dp[k] = min(dp[k], dp[k-1]);
+            new_dp[k] = dp[k] + cost(i, k);
         }
 
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+        dp = new_dp;
+        // deb(new_dp);
     }
+
+    cout << *min_element(all(dp)) << endl;
     
     return 0;
 }

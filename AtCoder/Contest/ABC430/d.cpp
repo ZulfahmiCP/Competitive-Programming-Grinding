@@ -42,44 +42,55 @@ const int INF = 2e9 + 7;
 const ll INFL = 9e18 + 7;
 const double EPS = 1e-9;
 
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+template<typename T> using ordmulset = tree<T, null_type, 
+    less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    ordmulset<pair<int, int>> ms;
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    int n; cin >> n;
+    vector<int> A(n+1, INF);
 
-        int time = 0, cur = 0;
+    ms.insert({0, 0});
+    ll ans = 0;
 
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
+    for(int j = 1; j <= n; j++){
+        int x, v; cin >> x;
+        ms.insert({x, j});
+        
+        int b = ms.order_of_key({x, j});
 
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
-
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
-
-                add[B[j]] += C[j];
-                j++;
+        if(b > 0){
+            auto left = ms.find_by_order(b-1);
+            v = x - left->fi;
+            A[j] = min(A[j], v);
+            if(v < A[left->se]){
+                if(A[left->se] == INF) 
+                    A[left->se] = 0;
+                ans += v - A[left->se];
+                A[left->se] = v;
             }
-
-            if(ok) break;
-            add.clear();
         }
 
-        for(auto [i, x] : add) 
-            A[i] += x;
+        if(b < sz(ms)-1){
+            auto right = ms.find_by_order(b+1);
+            v = right->fi - x;
+            A[j] = min(A[j], v);
+            if(v < A[right->se]){
+                if(A[right->se] == INF) 
+                    A[right->se] = 0;
+                ans += v - A[right->se];
+                A[right->se] = v;
+            }
+        }
 
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+        ans += A[j];
+        cout << ans << endl;
     }
     
     return 0;

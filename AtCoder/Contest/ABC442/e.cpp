@@ -45,41 +45,64 @@ const double EPS = 1e-9;
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    int n, q; cin >> n >> q;
+    
+    vector<ll> x(n), y(n), id(n);
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    for (int i = 0; i < n; i++) {
+        cin >> x[i] >> y[i];
+        id[i] = i;
+    }
 
-        int time = 0, cur = 0;
+    // y > 0 -> kuadran 1 & 2, y < 0 -> kuadran 3 & 4
+    auto kuadran = [&](int i) {
+        return y[i] > 0 || (y[i] == 0 && x[i] > 0);
+    };
 
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
+    auto val = [&](int a, int b) {
+        return x[a] * y[b] - y[a] * x[b];
+    };
 
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
+    sort(all(id), [&](ll &a, ll &b){
+        return kuadran(a) == kuadran(b) ? val(a, b) > 0 : kuadran(a);
+    });
 
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
+    vector<int> pos(n), line;
+    pos[id[0]] = 0;
+    line.pb(1);
 
-                add[B[j]] += C[j];
-                j++;
-            }
+    int k = 0;
 
-            if(ok) break;
-            add.clear();
+    for(int i = 1, u,v; i < n; i++){
+        u = id[i], v = id[i-1];
+
+        if(kuadran(u) == kuadran(v) && val(u, v) == 0){
+            line[k]++;
+        } else {
+            line.pb(1);
+            k++;
         }
 
-        for(auto [i, x] : add) 
-            A[i] += x;
+        pos[u] = k;
+    }
 
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+    k = sz(line);
+    vector<int> sum(k); 
+
+    sum[0] = line[0];
+    for (int i = 1; i < k; i++) 
+        sum[i] = sum[i - 1] + line[i];
+
+    while(q--){
+        int a, b; cin >> a >> b, a--; b--;
+        int l = pos[a], r = pos[b];
+
+        if(l == r) 
+            cout << line[l] << "\n";
+        else if(l > r) 
+            cout << sum[l] - (r ? sum[r - 1] : 0) << "\n";
+        else 
+            cout << sum[l] + (sum[k - 1] - sum[r - 1]) << "\n";
     }
     
     return 0;

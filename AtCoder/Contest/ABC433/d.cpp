@@ -42,45 +42,54 @@ const int INF = 2e9 + 7;
 const ll INFL = 9e18 + 7;
 const double EPS = 1e-9;
 
+int cnt(int x) {
+    int c = 0;
+    while(x > 0) c++, x /= 10;
+    return c;
+}
+
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    int n,m; cin >> n >> m;
+    vector<ll> A(n), B(n), pow10(11, 0);
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
-
-        int time = 0, cur = 0;
-
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
-
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
-
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
-
-                add[B[j]] += C[j];
-                j++;
-            }
-
-            if(ok) break;
-            add.clear();
-        }
-
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+    for(int i = 0; i < n; i++){
+        cin >> A[i];
+        B[i] = cnt(A[i]);
+        A[i] %= m;
     }
+
+    pow10[0] = 1;
+    for(int i = 1; i < 11; i++)
+        pow10[i] = 10LL * pow10[i-1] % m;
+
+    map<pair<int, int>, int> mp;
+    ll ans = 0;
+
+    for(int i = 0; i < n; i++)
+        mp[{B[i], (m - A[i]) % m}]++;
+
+    for(int i = 0; i < n; i++){
+        for(int j = 1; j < 11; j++){
+            int x = A[i] * pow10[j] % m;
+            assert(x >= 0 && x < m);
+            if(mp.find({j, x}) != mp.end())
+                ans += mp[{j, x}];
+        }
+    }
+
+    // cnt(A[j]) = jumlah digit di A[j]
+    // f(A[i], A[j]) =  A[i] * cnt(A[j]) + A[j]
+    // cnt(A[j]) = x
+    // A[i] * x + A[j] = 0
+    // A[i] * x = -A[j] % m
+    // A[j] = -A[i] * x (-A[i] * cnt(A[j]), cnt(A[j]))
+    // M = 10
+    // 10 100 0
+    // (0, 2) (0, 3) 
+
+    cout << ans << endl;
     
     return 0;
 }

@@ -45,41 +45,29 @@ const double EPS = 1e-9;
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    int t,n; cin >> t;
 
     while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+        cin >> n;
+        vector<int> A(n);
 
-        int time = 0, cur = 0;
+        for(int &a : A) cin >> a;
 
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
+        sort(all(A));
 
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
+        int ans = 0;
 
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
+        uniq(A);
+        n = sz(A);        
 
-                add[B[j]] += C[j];
+        for(int i = 0, j = 0; i < n; i = ++j){
+            while(j + 1 < n && A[j] + 1 == A[j+1])
                 j++;
-            }
 
-            if(ok) break;
-            add.clear();
+            ans = max(ans,j-i+1);
         }
 
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+        cout << ans << endl;
     }
     
     return 0;

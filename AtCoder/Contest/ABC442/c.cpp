@@ -42,44 +42,26 @@ const int INF = 2e9 + 7;
 const ll INFL = 9e18 + 7;
 const double EPS = 1e-9;
 
+ll C3(ll x) {
+    if(x < 2) return 0;
+    return x * (x - 1) * (x - 2) / 6;
+}
+
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    int n, m; cin >> n >> m;
+    vector<ll> sum(n, 0);
 
-        int time = 0, cur = 0;
+    for(int i = 0; i < m; i++){
+        int a,b; cin >> a >> b, a--, b--;
 
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
+        sum[a]++, sum[b]++;
+    }
 
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
-
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
-
-                add[B[j]] += C[j];
-                j++;
-            }
-
-            if(ok) break;
-            add.clear();
-        }
-
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+    for(int i = 0; i < n; i++){
+        cout << C3(n-sum[i]-1) << " \n"[i == n-1];
     }
     
     return 0;

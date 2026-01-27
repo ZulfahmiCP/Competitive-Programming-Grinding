@@ -45,42 +45,36 @@ const double EPS = 1e-9;
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    // pref[r] - pref[l]
+    // A[1] + ... + A[r]
+    // x < r -> do nothing
+    // x > r -> pref[r] = pref[r] - A[r] + A[r+1] 
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    int n,q; cin >> n >> q;
+    vector<ll> A(n), pref(n, 0);
 
-        int time = 0, cur = 0;
-
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
-
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
-
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
-
-                add[B[j]] += C[j];
-                j++;
-            }
-
-            if(ok) break;
-            add.clear();
-        }
-
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+    for(int i = 0; i < n; i++){
+        cin >> A[i];
+        pref[i] = A[i];
+        if(i > 0) pref[i] += pref[i-1];
     }
+
+    for(int i = 0, j,l,r,x; i < q; i++){
+        cin >> j;
+
+        if(j == 1){
+            cin >> x, x--;
+
+            pref[x] += A[x+1] - A[x];
+            swap(A[x], A[x+1]);
+        } else {
+            cin >> l >> r, l--, r--;
+            ll sum = pref[r];
+            if(l > 0) sum -= pref[l-1];
+            cout << sum << endl;
+        }
+    }
+
     
     return 0;
 }

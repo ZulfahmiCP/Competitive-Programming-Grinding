@@ -45,42 +45,26 @@ const double EPS = 1e-9;
 int main() {
 
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,n,m,h; cin >> t;
+    string s; cin >> s;
+    int n = sz(s);
+    vector<pair<int, int>> A;
 
-    while(t--){
-        cin >> n >> m >> h;
-        vector<ll> A(n), B(m), C(m);
-        map<int, ll> add;
+    for(int i = 0, j = 0; i < n; i = ++j){
+        while(j+1 < n && s[j+1] == s[i])
+            j++;
 
-        int time = 0, cur = 0;
-
-        for(ll &x : A) cin >> x;
-        for(int i = 0; i < m; i++)
-            cin >> B[i] >> C[i], B[i]--;
-
-        for(int i = 0, j = 0; i < m; i = ++j){
-            bool ok = 1;
-
-            while(j < m){
-                if(A[B[j]] + add[B[j]] + C[j] > h){
-                    ok = 0;
-                    break;
-                }
-
-                add[B[j]] += C[j];
-                j++;
-            }
-
-            if(ok) break;
-            add.clear();
-        }
-
-        for(auto [i, x] : add) 
-            A[i] += x;
-
-        for(int i = 0; i < n; i++)
-            cout << A[i] << " \n"[i == n-1];
+        A.pb({s[i] - '0', j-i+1});
     }
+
+    ll ans = 0;
+    int m = sz(A);
+
+    for(int i = 1; i < m; i++){
+        if(A[i-1].fi + 1 == A[i].fi)
+            ans += min(A[i-1].se, A[i].se);
+    }
+
+    cout << ans << endl;
     
     return 0;
 }
